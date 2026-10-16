@@ -1,0 +1,61 @@
+/* Scoped to the common layer so viewport layout rules (style.css/mobile.css,
+   both in the layout layer) can override its sizing instead of always losing
+   to it — unlayered rules otherwise outrank any layered rule regardless of
+   specificity or source order. */
+@layer common {
+  :root {
+    --ad-slot-size: 200px;
+    --ad-slot-margin: 10px;
+  }
+
+  .bottom-strip {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .bottom-strip > #terminal-host {
+    flex: 1 1 auto;
+    width: auto;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .ad-slot {
+    flex: 0 0 var(--ad-slot-size);
+    width: var(--ad-slot-size);
+    height: var(--ad-slot-size);
+    align-self: center;
+    margin: 0 var(--ad-slot-margin);
+    border: 1px dashed var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .ad-slot-text {
+    max-width: 150px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .ad-slot-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--text-disabled);
+  }
+}

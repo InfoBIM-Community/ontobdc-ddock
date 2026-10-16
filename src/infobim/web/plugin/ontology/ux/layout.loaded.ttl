@@ -1,0 +1,195 @@
+
+@prefix ewe: <http://gsi.upm.es/ontologies/ewe/ns#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+:DigitalDock a ewe:Channel ;
+ewe:generatesEvent :LayoutLoadedEvent .
+
+:OntoAssistant a ewe:Channel ;
+
+
+
+"presentation.main.layout.loaded"
+
+
+
+
+
+
+
+
+# @prefix ex: <https://example.org/chat/> .
+# @prefix sioc: <http://rdfs.org/sioc/ns#> .
+# @prefix prov: <http://www.w3.org/ns/prov#> .
+# @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+# @prefix dct: <http://purl.org/dc/terms/> .
+# @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# # Participantes
+
+# ex:cliente42 a foaf:Person, prov:Agent ;
+#     foaf:name "João" ;
+#     foaf:account ex:conta42 .
+
+# ex:conta42 a sioc:UserAccount .
+
+# ex:chatbot a prov:SoftwareAgent ;
+#     foaf:name "Assistente Virtual" .
+
+# ex:contaBot a sioc:UserAccount .
+
+# # Histórico de contatos
+
+# ex:historico42 a prov:Collection ;
+#     prov:hadMember ex:conversa1, ex:conversa2 .
+
+# # Primeira conversa
+
+# ex:conversa1 a sioc:Thread, prov:Entity ;
+#     dct:created "2026-10-10T10:00:00Z"^^xsd:dateTime .
+
+# ex:msg1 a sioc:Post, prov:Entity ;
+#     sioc:has_container ex:conversa1 ;
+#     sioc:has_creator ex:conta42 ;
+#     sioc:content "Qual o status do pedido 123?" ;
+#     dct:created "2026-10-10T10:01:00Z"^^xsd:dateTime .
+
+# ex:msg2 a sioc:Post, prov:Entity ;
+#     sioc:has_container ex:conversa1 ;
+#     sioc:has_creator ex:contaBot ;
+#     sioc:reply_of ex:msg1 ;
+#     sioc:content "Seu pedido está em transporte." ;
+#     dct:created "2026-10-10T10:01:03Z"^^xsd:dateTime ;
+#     prov:wasAttributedTo ex:chatbot .
+
+# # Segunda conversa, no dia seguinte
+
+# ex:conversa2 a sioc:Thread, prov:Entity ;
+#     dct:created "2026-10-11T14:00:00Z"^^xsd:dateTime .
+
+# ex:msg3 a sioc:Post, prov:Entity ;
+#     sioc:has_container ex:conversa2 ;
+#     sioc:has_creator ex:conta42 ;
+#     sioc:content "E o meu pedido, chegou?" ;
+#     dct:created "2026-10-11T14:01:00Z"^^xsd:dateTime .
+
+# ex:msg4 a sioc:Post, prov:Entity ;
+#     sioc:has_container ex:conversa2 ;
+#     sioc:has_creator ex:contaBot ;
+#     sioc:reply_of ex:msg3 ;
+#     sioc:content "Seu pedido foi entregue." ;
+#     dct:created "2026-10-11T14:01:02Z"^^xsd:dateTime ;
+#     prov:wasGeneratedBy ex:execucao42 ;
+#     prov:wasAttributedTo ex:chatbot .
+
+# # Rastreabilidade da resposta
+
+# ex:execucao42 a prov:Activity ;
+#     prov:wasAssociatedWith ex:chatbot ;
+#     prov:used ex:msg2, ex:msg3 ;
+#     prov:startedAtTime
+#         "2026-10-11T14:01:01Z"^^xsd:dateTime ;
+#     prov:endedAtTime
+#         "2026-10-11T14:01:02Z"^^xsd:dateTime .
+
+
+
+# @prefix convo: <https://ontology.inferal.com/modules/conversation/> .
+# @prefix prov: <http://www.w3.org/ns/prov#> .
+# @prefix ex: <https://example.org/chat/> .
+
+# ex:usuario a prov:Agent .
+# ex:bot a prov:SoftwareAgent .
+
+# ex:conversa1 a convo:Conversation ;
+#     convo:hasThread ex:thread1 .
+
+# ex:thread1 a convo:Thread ;
+#     convo:threadOfConversation ex:conversa1 .
+
+# ex:msg1 a convo:Message ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:conversa1 ;
+#     convo:authoredBy ex:usuario ;
+#     convo:text "Quanto é 2 + 2?" .
+
+# ex:msg2 a convo:Message ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:conversa1 ;
+#     convo:authoredBy ex:bot ;
+#     convo:inReplyTo ex:msg1 ;
+#     convo:text "4" .
+
+# ex:msg3 a convo:Message ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:conversa1 ;
+#     convo:authoredBy ex:bot ;
+#     convo:inReplyTo ex:msg1 ;
+#     convo:regenerationOf ex:msg2 ;
+#     convo:text "O resultado é 4." .
+
+
+
+# @prefix ex: <https://example.org/chat/> .
+# @prefix convo: <https://ontology.inferal.com/modules/conversation/> .
+# @prefix prov: <http://www.w3.org/ns/prov#> .
+
+# ex:chat1 a convo:Conversation ;
+#     convo:hasThread ex:thread1 .
+
+# ex:thread1 a convo:Thread ;
+#     convo:threadOfConversation ex:chat1 .
+
+# ex:usuario a prov:Agent .
+# ex:bot a prov:SoftwareAgent .
+# ex:modelo a convo:Model .
+# ex:apiPedidos a convo:Tool .
+
+# # Mensagem do usuário
+# ex:m1 a convo:Message ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:chat1 ;
+#     convo:hasContributionRole convo:UserRole ;
+#     convo:authoredBy ex:usuario ;
+#     convo:text "Onde está meu pedido 123?" .
+
+# # Chatbot solicita uma ferramenta
+# ex:m2 a convo:ToolCall ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:chat1 ;
+#     convo:hasContributionRole convo:AssistantRole ;
+#     convo:inReplyTo ex:m1 ;
+#     convo:text "consultar_pedido(123)" .
+
+# # Ferramenta responde
+# ex:m3 a convo:ToolResult ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:chat1 ;
+#     convo:hasContributionRole convo:ToolRole ;
+#     convo:inReplyTo ex:m2 ;
+#     convo:text "Status: em transporte" ;
+#     prov:wasGeneratedBy ex:execTool .
+
+# # Chatbot responde ao usuário
+# ex:m4 a convo:Message ;
+#     convo:inThread ex:thread1 ;
+#     convo:contributionOf ex:chat1 ;
+#     convo:hasContributionRole convo:AssistantRole ;
+#     convo:inReplyTo ex:m3 ;
+#     convo:text "Seu pedido está em transporte." ;
+#     prov:wasGeneratedBy ex:execLLM .
+
+# # Trilha de execução
+# ex:execTool a convo:ToolInvocation ;
+#     convo:invokedTool ex:apiPedidos ;
+#     convo:requestedBy ex:m2 ;
+#     prov:used ex:m2 ;
+#     prov:generated ex:m3 .
+
+# ex:execLLM a convo:ModelInvocation ;
+#     convo:usedModel ex:modelo ;
+#     prov:wasAssociatedWith ex:bot ;
+#     prov:used ex:m1, ex:m3 ;
+#     prov:generated ex:m4 .

@@ -1,0 +1,64 @@
+statechart:
+  name: SetUpEntityFacade
+  description: "Prepare the facade of a mounted entity tab."
+  root state:
+    name: set_up_entity_facade
+    initial: undefined
+    states:
+      - name: undefined
+        transitions:
+          - target: entity_panel_mounted
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_PANEL_MOUNTED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_PANEL_MOUNTED)
+      - name: entity_panel_mounted
+        transitions:
+          - target: entity_facade_found
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_FACADE_FOUND)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_FACADE_FOUND)
+      - name: entity_facade_found
+        transitions:
+          - target: entity_labels_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_LABELS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_LABELS_RESOLVED)
+      - name: entity_labels_resolved
+        transitions:
+          - target: entity_header_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_HEADER_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_HEADER_RESOLVED)
+      - name: entity_header_resolved
+        transitions:
+          - target: entity_fields_ordered
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_FIELDS_ORDERED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_FIELDS_ORDERED)
+      - name: entity_fields_ordered
+        transitions:
+          - target: entity_editability_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_EDITABILITY_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_EDITABILITY_RESOLVED)
+      - name: entity_editability_resolved
+        transitions:
+          - target: entity_resource_fields_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_RESOURCE_FIELDS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_RESOURCE_FIELDS_RESOLVED)
+      - name: entity_resource_fields_resolved
+        transitions:
+          - target: entity_masks_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_MASKS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_MASKS_RESOLVED)
+      - name: entity_masks_resolved
+        transitions:
+          - target: entity_visualizations_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_VISUALIZATIONS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_VISUALIZATIONS_RESOLVED)
+      - name: entity_visualizations_resolved
+        transitions:
+          - target: entity_deletability_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_DELETABILITY_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_DELETABILITY_RESOLVED)
+      - name: entity_deletability_resolved
+        transitions:
+          - target: entity_subclasses_resolved
+            guard: handler.can_transit_to(to_state = SetUpEntityFacadeStatePort.ENTITY_SUBCLASSES_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpEntityFacadeStatePort.ENTITY_SUBCLASSES_RESOLVED)
+      - name: entity_subclasses_resolved
+        type: final

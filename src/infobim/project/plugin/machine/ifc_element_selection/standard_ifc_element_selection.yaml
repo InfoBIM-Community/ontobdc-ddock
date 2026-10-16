@@ -1,0 +1,77 @@
+statechart:
+  name: IfcElementSelection
+  description: "Select the element clicked in the 3D view of an IFC tab and publish the selection."
+
+  root state:
+    name: ifc_element_selection
+    initial: undefined
+
+    states:
+      - name: undefined
+        label:
+          en: "Undefined"
+          pt-br: "Indefinido"
+        description:
+          en: "Initial state before the view of the clicked tab was found."
+          pt-br: "Estado inicial antes de a vista da aba clicada ser encontrada."
+        transitions:
+          - target: ifc_view_found
+            guard: handler.can_transit_to(to_state = IfcElementSelectionStatePort.IFC_VIEW_FOUND)
+            action: handler.perform_state_transition(to_state = IfcElementSelectionStatePort.IFC_VIEW_FOUND)
+
+      - name: ifc_view_found
+        label:
+          en: "IFC View Found"
+          pt-br: "Vista IFC Encontrada"
+        description:
+          en: "The 3D view of the clicked IFC tab was found."
+          pt-br: "A vista 3D da aba IFC clicada foi encontrada."
+        transitions:
+          - target: ifc_mesh_picked
+            guard: handler.can_transit_to(to_state = IfcElementSelectionStatePort.IFC_MESH_PICKED)
+            action: handler.perform_state_transition(to_state = IfcElementSelectionStatePort.IFC_MESH_PICKED)
+
+      - name: ifc_mesh_picked
+        label:
+          en: "IFC Mesh Picked"
+          pt-br: "Malha IFC Apontada"
+        description:
+          en: "The element drawn at the click was picked, if there is one."
+          pt-br: "O elemento desenhado no clique foi apontado, se houver."
+        transitions:
+          - target: ifc_element_identified
+            guard: handler.can_transit_to(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_IDENTIFIED)
+            action: handler.perform_state_transition(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_IDENTIFIED)
+
+      - name: ifc_element_identified
+        label:
+          en: "IFC Element Identified"
+          pt-br: "Elemento IFC Identificado"
+        description:
+          en: "What the IFC says about the picked element was read from the table of the view."
+          pt-br: "O que o IFC diz sobre o elemento apontado foi lido da tabela da vista."
+        transitions:
+          - target: ifc_element_highlighted
+            guard: handler.can_transit_to(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_HIGHLIGHTED)
+            action: handler.perform_state_transition(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_HIGHLIGHTED)
+
+      - name: ifc_element_highlighted
+        label:
+          en: "IFC Element Highlighted"
+          pt-br: "Elemento IFC Destacado"
+        description:
+          en: "The picked element is highlighted in the view, and any other highlight was cleared."
+          pt-br: "O elemento apontado está destacado na vista, e qualquer outro destaque foi removido."
+        transitions:
+          - target: ifc_element_selected
+            guard: handler.can_transit_to(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_SELECTED)
+            action: handler.perform_state_transition(to_state = IfcElementSelectionStatePort.IFC_ELEMENT_SELECTED)
+
+      - name: ifc_element_selected
+        label:
+          en: "IFC Element Selected"
+          pt-br: "Elemento IFC Selecionado"
+        description:
+          en: "The selection was published."
+          pt-br: "A seleção foi publicada."
+        type: final

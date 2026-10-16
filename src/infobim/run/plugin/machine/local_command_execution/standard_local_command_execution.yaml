@@ -1,0 +1,65 @@
+statechart:
+  name: StandardLocalCommandExecution
+  description: "Statechart for running a requested command in the Python runtime of the browser."
+
+  root state:
+    name: standard_local_command_execution
+    initial: undefined
+
+    states:
+      - name: undefined
+        label:
+          en: "Undefined"
+          pt-br: "Indefinido"
+        description:
+          en: "Initial state before the command was received."
+          pt-br: "Estado inicial antes de o comando ser recebido."
+        transitions:
+          - target: command_received
+            guard: handler.can_transit_to(to_state = LocalCommandExecutionStatePort.COMMAND_RECEIVED)
+            action: handler.perform_state_transition(to_state = LocalCommandExecutionStatePort.COMMAND_RECEIVED)
+
+      - name: command_received
+        label:
+          en: "Command Received"
+          pt-br: "Comando Recebido"
+        description:
+          en: "The command was accepted: it is an InfoBIM command and can be run."
+          pt-br: "O comando foi aceito: é um comando do InfoBIM e pode ser executado."
+        transitions:
+          - target: command_runnable_on_pyodide
+            guard: handler.can_transit_to(to_state = LocalCommandExecutionStatePort.COMMAND_RUNNABLE_ON_PYODIDE)
+            action: handler.perform_state_transition(to_state = LocalCommandExecutionStatePort.COMMAND_RUNNABLE_ON_PYODIDE)
+
+      - name: command_runnable_on_pyodide
+        label:
+          en: "Command Runnable On Pyodide"
+          pt-br: "Comando Executável no Pyodide"
+        description:
+          en: "The command ran in the Python runtime and its response was recorded, without being analyzed."
+          pt-br: "O comando rodou no Python do navegador e a resposta foi registrada, sem ser analisada."
+        transitions:
+          - target: command_finished_successfully
+            guard: handler.result_succeeded()
+            action: handler.perform_state_transition(to_state = LocalCommandExecutionStatePort.COMMAND_FINISHED_SUCCESSFULLY)
+          - target: command_finished_with_failure
+            guard: not handler.result_succeeded()
+            action: handler.perform_state_transition(to_state = LocalCommandExecutionStatePort.COMMAND_FINISHED_WITH_FAILURE)
+
+      - name: command_finished_successfully
+        label:
+          en: "Command Finished Successfully"
+          pt-br: "Comando Concluído com Sucesso"
+        description:
+          en: "The recorded result says the command worked."
+          pt-br: "O resultado registrado diz que o comando funcionou."
+        type: final
+
+      - name: command_finished_with_failure
+        label:
+          en: "Command Finished With Failure"
+          pt-br: "Comando Concluído com Falha"
+        description:
+          en: "The recorded result says the command did not work."
+          pt-br: "O resultado registrado diz que o comando não funcionou."
+        type: final

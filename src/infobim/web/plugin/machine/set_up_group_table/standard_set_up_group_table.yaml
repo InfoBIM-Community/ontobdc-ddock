@@ -1,0 +1,44 @@
+statechart:
+  name: SetUpGroupTable
+  description: "Prepare the table of a group of the database: its columns, names and values by the facade."
+  root state:
+    name: set_up_group_table
+    initial: undefined
+    states:
+      - name: undefined
+        transitions:
+          - target: table_panel_mounted
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_PANEL_MOUNTED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_PANEL_MOUNTED)
+      - name: table_panel_mounted
+        transitions:
+          - target: table_facade_found
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_FACADE_FOUND)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_FACADE_FOUND)
+      - name: table_facade_found
+        transitions:
+          - target: table_columns_ordered
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_COLUMNS_ORDERED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_COLUMNS_ORDERED)
+      - name: table_columns_ordered
+        transitions:
+          - target: table_labels_resolved
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_LABELS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_LABELS_RESOLVED)
+      - name: table_labels_resolved
+        transitions:
+          - target: table_resource_fields_resolved
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_RESOURCE_FIELDS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_RESOURCE_FIELDS_RESOLVED)
+      - name: table_resource_fields_resolved
+        transitions:
+          - target: table_masks_resolved
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_MASKS_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_MASKS_RESOLVED)
+      - name: table_masks_resolved
+        transitions:
+          - target: table_subclasses_resolved
+            guard: handler.can_transit_to(to_state = SetUpGroupTableStatePort.TABLE_SUBCLASSES_RESOLVED)
+            action: handler.perform_state_transition(to_state = SetUpGroupTableStatePort.TABLE_SUBCLASSES_RESOLVED)
+      - name: table_subclasses_resolved
+        type: final

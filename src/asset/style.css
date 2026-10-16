@@ -1,0 +1,153 @@
+/* Desktop layout; shared appearance is defined in common.css. */
+#terminal-host .dv-default-tab-content {
+  padding-left: 12px;
+}
+
+:root {
+  --explorer-width: 260px;
+  --llm-width: 320px;
+  --terminal-height: 220px;
+  --splitter-size: 4px;
+  --splitter-hit-area: 6px;
+}
+
+.shell {
+  grid-template-rows: 35px minmax(0, 1fr) 22px;
+}
+
+.titlebar .project {
+  flex: 1 1 auto;
+}
+.activity svg { width: 26px; height: 26px; vertical-align: middle; }
+
+.workspace {
+  grid-template-columns: 48px var(--explorer-width) var(--splitter-size) minmax(0, 1fr) var(--splitter-size) var(--llm-width);
+  grid-template-rows: minmax(0, 1fr) var(--splitter-size) var(--terminal-height);
+  grid-template-areas:
+    "activity explorer splitter-explorer surface         splitter-llm    llm"
+    "activity explorer splitter-explorer splitter-terminal splitter-terminal splitter-terminal"
+    "activity explorer splitter-explorer terminal        terminal        terminal";
+}
+
+.activitybar {
+  grid-area: activity;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 4px;
+  background: var(--background);
+  border-right: 1px solid var(--border);
+}
+.activity:hover { color: var(--text-secondary); }
+.activity:disabled { color: var(--text-disabled); cursor: default; }
+.activity:disabled:hover { color: var(--text-disabled); }
+.activity.active { color: var(--text-strong); border-left-color: var(--text-strong); }
+
+.explorer-pane {
+  grid-area: explorer;
+  min-width: 140px;
+  overflow: hidden;
+  border-left: 0;
+}
+
+.llm-pane {
+  min-width: 180px;
+  border-right: 0;
+}
+
+.surface-pane {
+  grid-area: surface;
+  border-left: 0;
+  border-right: 0;
+}
+
+.terminal-pane {
+  grid-area: terminal;
+  min-height: 80px;
+  overflow: hidden;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.splitter {
+  position: relative;
+  background: transparent;
+  z-index: 10;
+  transition: background-color 0.15s ease;
+}
+
+.splitter::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--border);
+  transition: background-color 0.15s ease;
+}
+
+.splitter-horizontal {
+  grid-area: splitter-explorer / splitter-explorer / splitter-explorer / splitter-explorer;
+  cursor: col-resize;
+  margin: 0 calc(var(--splitter-hit-area) * -1);
+  padding: 0 var(--splitter-hit-area);
+}
+
+.splitter-horizontal::after {
+  width: 1px;
+  height: 100%;
+}
+
+.splitter-horizontal:hover,
+.splitter-horizontal.dragging {
+  background: transparent;
+}
+
+.splitter-horizontal:hover::after,
+.splitter-horizontal.dragging::after {
+  background: var(--accent);
+  width: 2px;
+}
+
+.splitter-horizontal.llm {
+  grid-area: splitter-llm / splitter-llm / splitter-llm / splitter-llm;
+}
+
+.splitter-vertical {
+  grid-area: splitter-terminal;
+  cursor: row-resize;
+  margin: calc(var(--splitter-hit-area) * -1) 0;
+  padding: var(--splitter-hit-area) 0;
+}
+
+.splitter-vertical::after {
+  width: 100%;
+  height: 1px;
+}
+
+.splitter-vertical:hover,
+.splitter-vertical.dragging {
+  background: transparent;
+}
+
+.splitter-vertical:hover::after,
+.splitter-vertical.dragging::after {
+  background: var(--accent);
+  height: 2px;
+}
+
+.surface-pane .pane-body { background: var(--surface); }
+.terminal-pane { border-top: 0; border-bottom: 0; }
+
+  .activity {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-left: 2px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+  }
+

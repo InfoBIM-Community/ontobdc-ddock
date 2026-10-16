@@ -1,0 +1,171 @@
+statechart:
+  name: ExplorerFileOpenStrategyChain
+  description: >-
+    Fallback chain run by FILE_OPENING_STRATEGY_FOUND when no capability is
+    registered for the file's extension. The complete topology is declared
+    here: the root is parallel and each region is one responsibility, named
+    by the id of the capability it runs. The worker only interprets this
+    file; it never adds, removes or renames states or regions.
+
+    A responsibility is declared as one region of this shape:
+
+      - name: <responsibility>
+        initial: <responsibility>_pending
+        states:
+          - name: <responsibility>_pending
+            transitions:
+              - target: <responsibility>_completed
+                guard: worker.can_handle('<capability id>')
+                action: worker.execute_responsibility('<capability id>')
+              - target: <responsibility>_completed
+                guard: not worker.can_handle('<capability id>')
+          - name: <responsibility>_completed
+            type: final
+
+  root state:
+    name: explorer_file_open_strategy_chain
+    parallel states:
+      - name: image
+        initial: image_pending
+        states:
+          - name: image_pending
+            transitions:
+              - target: image_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.image_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.image_tab_opened')
+              - target: image_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.image_tab_opened')
+          - name: image_completed
+            type: final
+      - name: pdf
+        initial: pdf_pending
+        states:
+          - name: pdf_pending
+            transitions:
+              - target: pdf_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.pdf_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.pdf_tab_opened')
+              - target: pdf_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.pdf_tab_opened')
+          - name: pdf_completed
+            type: final
+      - name: txt
+        initial: txt_pending
+        states:
+          - name: txt_pending
+            transitions:
+              - target: txt_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.txt_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.txt_tab_opened')
+              - target: txt_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.txt_tab_opened')
+          - name: txt_completed
+            type: final
+      - name: csv
+        initial: csv_pending
+        states:
+          - name: csv_pending
+            transitions:
+              - target: csv_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.csv_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.csv_tab_opened')
+              - target: csv_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.csv_tab_opened')
+          - name: csv_completed
+            type: final
+      - name: md
+        initial: md_pending
+        states:
+          - name: md_pending
+            transitions:
+              - target: md_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.md_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.md_tab_opened')
+              - target: md_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.md_tab_opened')
+          - name: md_completed
+            type: final
+      - name: xlsx
+        initial: xlsx_pending
+        states:
+          - name: xlsx_pending
+            transitions:
+              - target: xlsx_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.xlsx_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.xlsx_tab_opened')
+              - target: xlsx_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.xlsx_tab_opened')
+          - name: xlsx_completed
+            type: final
+      - name: docx
+        initial: docx_pending
+        states:
+          - name: docx_pending
+            transitions:
+              - target: docx_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.docx_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.docx_tab_opened')
+              - target: docx_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.docx_tab_opened')
+          - name: docx_completed
+            type: final
+      - name: html
+        initial: html_pending
+        states:
+          - name: html_pending
+            transitions:
+              - target: html_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.html_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.html_tab_opened')
+              - target: html_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.html_tab_opened')
+          - name: html_completed
+            type: final
+      - name: dxf
+        initial: dxf_pending
+        states:
+          - name: dxf_pending
+            transitions:
+              - target: dxf_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.dxf_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.dxf_tab_opened')
+              - target: dxf_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.dxf_tab_opened')
+          - name: dxf_completed
+            type: final
+      - name: ifc
+        initial: ifc_pending
+        states:
+          - name: ifc_pending
+            transitions:
+              - target: ifc_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.ifc_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.ifc_tab_opened')
+              - target: ifc_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.ifc_tab_opened')
+          - name: ifc_completed
+            type: final
+      - name: heic
+        initial: heic_pending
+        states:
+          - name: heic_pending
+            transitions:
+              - target: heic_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.heic_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.heic_tab_opened')
+              - target: heic_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.heic_tab_opened')
+          - name: heic_completed
+            type: final
+      - name: dwg
+        initial: dwg_pending
+        states:
+          - name: dwg_pending
+            transitions:
+              - target: dwg_completed
+                guard: worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.dwg_tab_opened')
+                action: worker.execute_responsibility('org.infobim.project.plugin.capability.transformation.strategy.dwg_tab_opened')
+              - target: dwg_completed
+                guard: not worker.can_handle('org.infobim.project.plugin.capability.transformation.strategy.dwg_tab_opened')
+          - name: dwg_completed
+            type: final

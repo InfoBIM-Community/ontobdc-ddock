@@ -1,0 +1,89 @@
+statechart:
+  name: StandardRemoteProjectConnection
+  description: "Statechart for connecting to a remote InfoBIM project from the browser."
+
+  root state:
+    name: standard_remote_project_connection
+    initial: undefined
+
+    states:
+      - name: undefined
+        label:
+          en: "Undefined"
+          pt-br: "Indefinido"
+        description:
+          en: "Initial state before anything was prepared."
+          pt-br: "Estado inicial antes de qualquer preparação."
+        transitions:
+          - target: access_token_recovered
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.ACCESS_TOKEN_RECOVERED)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.ACCESS_TOKEN_RECOVERED)
+
+      - name: access_token_recovered
+        label:
+          en: "Access Token Recovered"
+          pt-br: "Token de Acesso Recuperado"
+        description:
+          en: "The access token is the one given or, if none was given, the one remembered in the cookie."
+          pt-br: "O token de acesso é o informado ou, se nenhum foi informado, o lembrado no cookie."
+        transitions:
+          - target: temporary_folder_available
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.TEMPORARY_FOLDER_AVAILABLE)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.TEMPORARY_FOLDER_AVAILABLE)
+
+      - name: temporary_folder_available
+        label:
+          en: "Temporary Folder Available"
+          pt-br: "Pasta Temporária Disponível"
+        description:
+          en: "A temporary folder the browser can access was created."
+          pt-br: "Uma pasta temporária que o navegador consegue acessar foi criada."
+        transitions:
+          - target: context_initialized
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.CONTEXT_INITIALIZED)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.CONTEXT_INITIALIZED)
+
+      - name: context_initialized
+        label:
+          en: "Context Initialized"
+          pt-br: "Contexto Inicializado"
+        description:
+          en: "infobim init ran in the temporary folder."
+          pt-br: "O infobim init rodou na pasta temporária."
+        transitions:
+          - target: context_parameters_set
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.CONTEXT_PARAMETERS_SET)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.CONTEXT_PARAMETERS_SET)
+
+      - name: context_parameters_set
+        label:
+          en: "Context Parameters Set"
+          pt-br: "Parâmetros do Contexto Definidos"
+        description:
+          en: "The parameters of the connection are in context.ttl."
+          pt-br: "Os parâmetros da conexão estão no context.ttl."
+        transitions:
+          - target: remote_project_connected
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.REMOTE_PROJECT_CONNECTED)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.REMOTE_PROJECT_CONNECTED)
+
+      - name: remote_project_connected
+        label:
+          en: "Remote Project Connected"
+          pt-br: "Projeto Remoto Conectado"
+        description:
+          en: "infobim project --remote finished successfully."
+          pt-br: "O infobim project --remote terminou com sucesso."
+        transitions:
+          - target: access_token_remembered
+            guard: handler.can_transit_to(to_state = RemoteProjectConnectionStatePort.ACCESS_TOKEN_REMEMBERED)
+            action: handler.perform_state_transition(to_state = RemoteProjectConnectionStatePort.ACCESS_TOKEN_REMEMBERED)
+
+      - name: access_token_remembered
+        label:
+          en: "Access Token Remembered"
+          pt-br: "Token de Acesso Lembrado"
+        description:
+          en: "The token that worked was saved in the cookie, to be used again after a reload."
+          pt-br: "O token que funcionou foi salvo no cookie, para ser usado de novo após um reload."
+        type: final

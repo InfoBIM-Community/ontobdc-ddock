@@ -1,0 +1,38 @@
+/* dockview's own theme stylesheet (imported in main.ts right before this file)
+   is unlayered, so this override must also stay unlayered and come after it in
+   import order — a rule inside @layer common/layout can never win against it,
+   regardless of specificity. The vs (dark) preset ships a blue active tab via
+   --dv-activegroup-visiblepanel-tab-background-color; the light preset leaves
+   it plain white. This brings light in line with dark using our own accent. */
+.dockview-theme-light {
+  --dv-activegroup-visiblepanel-tab-background-color: var(--accent);
+  --dv-activegroup-visiblepanel-tab-color: var(--text-on-accent);
+  /* Every theme defaults to 35px/13px; only vs (dark) shrinks this to 20px/11px.
+     Light never got the same override, which is why its tab bar reads taller. */
+  --dv-tabs-and-actions-container-height: 20px;
+  --dv-tabs-and-actions-container-font-size: 11px;
+}
+
+/* dockview.css only draws the active-group border (the line under the tab
+   strip) for .dockview-theme-vs — the light preset has no equivalent rule at
+   all, not even in white. Mirroring the vs block here is what puts it back. */
+.dockview-theme-light .dv-groupview.dv-active-group > .dv-tabs-and-actions-container {
+  box-sizing: content-box;
+  border-bottom: 2px solid var(--dv-activegroup-visiblepanel-tab-background-color);
+}
+.dockview-theme-light .dv-groupview.dv-active-group > .dv-tabs-and-actions-container .dv-tab.dv-active-tab {
+  border-top: 2px solid var(--dv-activegroup-visiblepanel-tab-background-color);
+}
+.dockview-theme-light .dv-groupview.dv-active-group > .dv-tabs-and-actions-container .dv-tab.dv-inactive-tab {
+  border-top: 2px solid var(--dv-activegroup-hiddenpanel-tab-background-color);
+}
+.dockview-theme-light .dv-groupview.dv-inactive-group > .dv-tabs-and-actions-container {
+  box-sizing: content-box;
+  border-bottom: 2px solid var(--dv-inactivegroup-visiblepanel-tab-background-color);
+}
+.dockview-theme-light .dv-groupview.dv-inactive-group > .dv-tabs-and-actions-container .dv-tab.dv-active-tab {
+  border-top: 2px solid var(--dv-inactivegroup-visiblepanel-tab-background-color);
+}
+.dockview-theme-light .dv-groupview.dv-inactive-group > .dv-tabs-and-actions-container .dv-tab.dv-inactive-tab {
+  border-top: 2px solid var(--dv-inactivegroup-hiddenpanel-tab-background-color);
+}
